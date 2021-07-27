@@ -30,7 +30,7 @@ def record_view(oscar_id):
     cursor = mysql.get_db().cursor()
     cursor.execute('SELECT * FROM oscar_age_male WHERE id=%s', oscar_id)
     result = cursor.fetchall()
-    return render_template('view.html', title='View Form', oscar=result[0])
+    return render_template('view.html', title='View Form', osc=result[0])
 
 
 @app.route('/edit/<int:oscar_id>', methods=['GET'])
@@ -38,15 +38,15 @@ def form_edit_get(oscar_id):
     cursor = mysql.get_db().cursor()
     cursor.execute('SELECT * FROM oscar_age_male WHERE id=%s', oscar_id)
     result = cursor.fetchall()
-    return render_template('edit.html', title='Edit Form', oscar=result[0])
+    return render_template('edit.html', title='Edit Form', osc=result[0])
 
 
 @app.route('/edit/<int:oscar_id>', methods=['POST'])
 def form_update_post(oscar_id):
     cursor = mysql.get_db().cursor()
-    inputData = (request.form.get('sIndex'), request.form.get('sYear'), request.form.get('sName'),
+    inputData = (request.form.get('sIndex'), request.form.get('sYear'), request.form.get('sName'),request.form.get('sAge'),
                  request.form.get('sMovie'), request.form.get('sNote'), oscar_id)
-    sql_update_query = """UPDATE oscar_age_male t SET t.sIndex = %s, t.sYear = %s, t.sName = %s, t.sMovie = 
+    sql_update_query = """UPDATE oscar_age_male t SET t.sIndex = %s, t.sYear = %s, t.sName = %s, t.sAge = %s,t.sMovie = 
     %s, t.sNote = %s WHERE t.id = %s """
     cursor.execute(sql_update_query, inputData)
     mysql.get_db().commit()
@@ -54,15 +54,15 @@ def form_update_post(oscar_id):
 
 @app.route('/oscar/new', methods=['GET'])
 def form_insert_get():
-    return render_template('new.html', title='New Oscars Form')
+    return render_template('new.html', title='New Oscar Form')
 
 
 @app.route('/oscar/new', methods=['POST'])
 def form_insert_post():
     cursor = mysql.get_db().cursor()
-    inputData = (request.form.get('sIndex'), request.form.get('sYear'), request.form.get('sName'),
+    inputData = (request.form.get('sIndex'), request.form.get('sYear'), request.form.get('sName'),request.form.get('sAge'),
                  request.form.get('sMovie'), request.form.get('sNote'))
-    sql_insert_query = """INSERT INTO oscar_age_male (sIndex,sYear,sName,sMovie,sNote) VALUES (%s, %s,%s, %s,%s) """
+    sql_insert_query = """INSERT INTO oscar_age_male (sIndex,sYear,sName,sAge,sMovie,sNote) VALUES (%s, %s,%s, %s,%s,%s) """
     cursor.execute(sql_insert_query, inputData)
     mysql.get_db().commit()
     return redirect("/", code=302)
@@ -108,7 +108,7 @@ def api_edit(oscar_id) -> str:
     return resp
 
 
-@app.route('/api/cities/<int:oscar_id>', methods=['DELETE'])
+@app.route('/api/oscar/<int:oscar_id>', methods=['DELETE'])
 def api_delete(oscar_id) -> str:
     resp = Response(status=210, mimetype='application/json')
     return resp
