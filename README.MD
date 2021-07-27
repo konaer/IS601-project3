@@ -2,6 +2,6 @@
 
 IS601 Homework5
 
-* [Screenshots](a.pdf)
+* [Screenshots](screenshots.pdf)
 
 
