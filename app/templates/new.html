@@ -1,16 +1,22 @@
 {% extends "layout.html" %}
 {% block content %}
-<form action="/cities/new" method="POST">
+<form action="/oscar/new" method="POST">
     <div class="row">
         <div class="col">
-            <label for="fldName">City Name</label>
-            <input id="fldName" type="text" class="form-control" placeholder="City Name" name="fldName">
+            <label for="sIndex">Index</label>
+            <input id="sIndex" type="text" class="form-control" placeholder="Index" name="sIndex">
         </div>
+    </div>
+
+    <div class="row">
         <div class="col">
-            <label for="fldAbbreviation">City Abbreviation</label>
+            <label for="sYear">City Abbreviation</label>
             <input id="fldAbbreviation" t ype="text" class="form-control" placeholder="City Abbreviation"
                    name="fldAbbreviation">
         </div>
+    </div>
+
+    <div class="row">
         <div class="col">
             <label for="fldCountry">City Country</label>
             <input id="fldCountry" type="text" class="form-control" placeholder="City Country" name="fldCountry">
