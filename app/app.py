@@ -95,20 +95,6 @@ def api_retrieve(oscar_id) -> str:
     resp = Response(json_result, status=200, mimetype='application/json')
     return resp
 
-
-@app.route('/api/v1/oscar/', methods=['POST'])
-def api_add() -> str:
-    content = request.json
-    cursor = mysql.get_db().cursor()
-    inputData = (content['sIndex'], content['sYear'], content['sName'],
-                 content['sAge'], content['sMovie'],
-                 content['sNote'])
-    sql_insert_query = """INSERT INTO oscar_age_male (sIndex,sYear,sName,sAge,sMovie,sNote) VALUES (%s, %s,%s, %s,%s, %s) """
-    cursor.execute(sql_insert_query, inputData)
-    mysql.get_db().commit()
-    resp = Response(status=201, mimetype='application/json')
-    return resp
-
 @app.route('/api/v1/oscar/<int:oscar_id>', methods=['PUT'])
 def api_edit(oscar_id) -> str:
     cursor = mysql.get_db().cursor()
@@ -119,6 +105,19 @@ def api_edit(oscar_id) -> str:
     sql_update_query = """UPDATE oscar_age_male t SET t.sIndex = %s, t.sYear = %s, t.sName = %s, t.sAge = 
             %s, t.sMovie = %s, t.sNote = %s WHERE t.id = %s """
     cursor.execute(sql_update_query, inputData)
+    mysql.get_db().commit()
+    resp = Response(status=201, mimetype='application/json')
+    return resp
+
+@app.route('/api/v1/oscar', methods=['POST'])
+def api_add() -> str:
+    content = request.json
+    cursor = mysql.get_db().cursor()
+    inputData = (content['sIndex'], content['sYear'], content['sName'],
+                 content['sAge'], content['sMovie'],
+                 content['sNote'])
+    sql_insert_query = """INSERT INTO oscar_age_male (sIndex,sYear,sName,sAge,sMovie,sNote) VALUES (%s, %s,%s, %s,%s, %s) """
+    cursor.execute(sql_insert_query, inputData)
     mysql.get_db().commit()
     resp = Response(status=201, mimetype='application/json')
     return resp
